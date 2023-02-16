@@ -76,8 +76,10 @@ class Config:
     model_dir = output_dir
     eval_dir = osp.join(output_dir, 'inference')
 
-    imgDir = '/home/zhenganlin/june/CrowdHuman/images'
-    json_dir = '/home/zhenganlin/june/CrowdHuman/annotation_sparse-rcnn'
+    # imgDir = '/home/zhenganlin/june/CrowdHuman/images'
+    # json_dir = '/home/zhenganlin/june/CrowdHuman/annotation_sparse-rcnn'
+    imgDir = 'CrowdHuman/images'
+    json_dir = 'CrowdHuman/annotations'
     train_json = osp.join(json_dir, 'train.json')
     eval_json = osp.join(json_dir, 'val.json')
     
