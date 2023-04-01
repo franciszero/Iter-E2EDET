@@ -78,7 +78,7 @@ class _DatasetCatalog(UserDict):
     __repr__ = __str__
 
 
-DatasetCatalog = _DatasetCatalog()
+DatasetCatalog = _DatasetCatalog()  # global dataset configure loader
 DatasetCatalog.__doc__ = (
     _DatasetCatalog.__doc__
     + """

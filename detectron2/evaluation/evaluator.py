@@ -132,7 +132,11 @@ def inference_on_dataset(model, data_loader, evaluator):
     start_time = time.perf_counter()
     total_compute_time = 0
     with inference_context(model), torch.no_grad():
-        for idx, inputs in enumerate(data_loader):
+        # DataLoader 封装了枚举器：iter = data_loader._get_iterator()
+        # 但枚举器应该是被重写了，enum 时自动执行了文件加载，然后报错 No such file or directory
+        # 文件定义在 annotations/val.json 中
+        # annotation 文件预加载到 DataLoader 里了，由 datectron2/data/datasets/buildin.py 执行的
+        for idx, inputs in enumerate(data_loader):  # 这东西只能用 enum 往外读。。。封装的简直。。。
             if idx == num_warmup:
                 start_time = time.perf_counter()
                 total_compute_time = 0
@@ -173,6 +177,8 @@ def inference_on_dataset(model, data_loader, evaluator):
         )
     )
 
+    # 有了 input 和 output，这里运行后，直接得到 AP scores，所以问题就在于，这个方法是怎么计算 AP 的，output 里边的数据到底应该怎么用
+    # 模型到底预测了个什么东西，应该要到 evaluate 里边去看用法，才能知道 output 里边哪个输出才能用来预测 person，以及查看预测效果
     results = evaluator.evaluate()
     # An evaluator may return None when not in main process.
     # Replace it by an empty dict instead to make it easier for downstream code to handle

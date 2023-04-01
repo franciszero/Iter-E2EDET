@@ -79,10 +79,10 @@ class Config:
     model_dir = output_dir()
     eval_dir = osp.join(model_dir, 'inference')
 
-    imgDir = '/home/zhenganlin/june/CrowdHuman/images'
+    imgDir = '/home/zhenganlin/june/CrowdHuman/images_for_bruce_beach'  # 手工修改 images folder 路径
     json_dir = '/home/zhenganlin/june/CrowdHuman/annotation_sparse-rcnn'
     train_json = osp.join(json_dir, 'train.json')
-    eval_json = osp.join(json_dir, 'val.json')
+    eval_json = osp.join(json_dir, 'bruce_beach.json')  # 手工修改 coco format annotation 文件
     
     dirpath = '/home/zhenganlin/june/CrowdHuman'
     train_file = osp.join(dirpath,'crowd_human_train15000_final_unsure_fixempty_fixvis_vboxmerge.odgt')

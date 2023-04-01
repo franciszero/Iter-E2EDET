@@ -33,27 +33,26 @@ from .pascal_voc import register_pascal_voc
 from .mot import register_mot_instances
 from .crowdhuman import register_crowdhuman_instances
 from .citypersons import register_citypersons_instances
-from config import config
 
 
 # ==== Predefined datasets and splits for mot&crowdhuman ==========
 
 _PREDEFINED_SPLITS_MOT = dict()
 _PREDEFINED_SPLITS_MOT["mot"] = {
-    "mot17_train_half": ("mot/train",
-                         "mot/annotations/train_half.json"),
-    "mot17_val_half": ("mot/train",
-                       "mot/annotations/val_half.json"),
-    "mot17_test": ("mot/test",
-                       "mot/annotations/test.json"),
+    "mot17_train_half": ("mot/train", "mot/annotations/train_half.json"),
+    "mot17_val_half": ("mot/train", "mot/annotations/val_half.json"),
+    "mot17_test": ("mot/test", "mot/annotations/test.json"),
 }
 
 _PREDEFINED_SPLITS_CROWDHUAMN = dict()
 
-imgDir, json_dir = config.imgDir, config.json_dir
+# imgDir, json_dir = config.imgDir, config.json_dir
+imgDir = 'CrowdHuman/images_for_bruce_beach'  # CrowdHuman_val'  # 手工修改 image_dir for bruce beach
+json_dir = 'CrowdHuman/annotations'
+
 _PREDEFINED_SPLITS_CROWDHUAMN["crowdhuman"] = {
     "CrowdHuman_train": (imgDir, osp.join(json_dir, 'train.json')),
-    "CrowdHuman_val": (imgDir, osp.join(json_dir, 'val.json')),
+    "CrowdHuman_val": (imgDir, osp.join(json_dir, 'bruce_beach.json')),  # 手工修改 coco format annotation 路径
 }
 
 imgDir = {'train': 'data/citypersons/train', 
@@ -324,7 +323,10 @@ def register_all_ade20k(root):
 # Internally at fb, we register them elsewhere
 if __name__.endswith(".builtin"):
     # Assume pre-defined datasets live in `./datasets`.
-    _root = os.getenv("DETECTRON2_DATASETS", "datasets")
+    import sys
+    ROOT_PATH = os.path.dirname(os.path.abspath(sys.argv[0])) + '/../../'
+    print('[datectron2/data/datasets/buildin.py.] ROOT_PATH: ' + ROOT_PATH)
+    _root = os.getenv("DETECTRON2_DATASETS", ROOT_PATH + "datasets")
     register_all_coco(_root)
     register_all_lvis(_root)
     register_all_cityscapes(_root)

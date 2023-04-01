@@ -118,6 +118,11 @@ def main(args):
     if args.eval_only:
         model = Trainer.build_model(cfg)
         DetectionCheckpointer(model, save_dir=cfg.OUTPUT_DIR).resume_or_load(cfg.MODEL.WEIGHTS, resume=args.resume)
+
+        # 模型使用的参数如何配置
+        # 加载模型后输出为什么是 500 个，没有经过 IoU
+        # 如果 Alex 给了测试图片，如何确定 metrics value，当前需要先开发一个标注程序，给大家一起做图像标注用，然后才能评价哪个候选模型最好
+        # 有测试图片之后继续开发基于 COCO 的候选模型，然后给出最终结果
         res = Trainer.test(cfg, model)
         if comm.is_main_process():
             verify_results(cfg, res)
